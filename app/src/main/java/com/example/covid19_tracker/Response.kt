@@ -1,5 +1,6 @@
 package com.example.covid19_tracker
 
+//Converted from API Data using Robo Pojo Generator
 data class Response(
 	val statewise: List<StatewiseItem>
 )
