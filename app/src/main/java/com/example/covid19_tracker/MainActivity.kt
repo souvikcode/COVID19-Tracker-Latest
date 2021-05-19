@@ -24,12 +24,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchResults() {
-        GlobalScope.launch {
-            val response = withContext(Dispatchers.IO) { Client.api.execute() }
-            if (response.isSuccessful) {
-                val data = Gson().fromJson(response.body?.string(), Response::class.java)
-                launch(Dispatchers.Main) {
-                    bindCombinedData(data.statewise[0])
+        GlobalScope.launch {// Global Scope of Courountines gets on
+            val response = withContext(Dispatchers.IO) { Client.api.execute() }   // Call API using coroutines because of network calls | Dispatcher IO means Input/Output call
+            if (response.isSuccessful) {  // response succesfull
+                val data = Gson().fromJson(response.body?.string(), Response::class.java) // Conversion from API data to android understanble using Gson
+                launch(Dispatchers.Main) {  // UI work
+                    bindCombinedData(data.statewise[0]) // Access list data
                     bindStateWiseData(data.statewise.subList(1, data.statewise.size))
                 }
             }
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         val lastUpdatedTime = data.lastupdatedtime
         val simpleDateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
         lastUpdatedTv.text = "Last Updated\n ${getTimeAgo(
-            simpleDateFormat.parse(lastUpdatedTime)
+            simpleDateFormat.parse(lastUpdatedTime)  
         )}"
 
         confirmedTv.text = data.confirmed
@@ -57,7 +57,8 @@ class MainActivity : AppCompatActivity() {
 }
 
 fun getTimeAgo(past: Date): String {
-    val now = Date()
+    // Show updated at Time
+    val now = Date()  // Current Time 
     val seconds = TimeUnit.MILLISECONDS.toSeconds(now.time - past.time)
     val minutes = TimeUnit.MILLISECONDS.toMinutes(now.time - past.time)
     val hours = TimeUnit.MILLISECONDS.toHours(now.time - past.time)
