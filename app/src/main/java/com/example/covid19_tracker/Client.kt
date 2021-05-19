@@ -4,7 +4,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 
 object Client {
-    private val okHttpClient = OkHttpClient()  //OkHTTP Client formed, this we use for Networking
+    private val okHttpClient = OkHttpClient()  //OkHTTP Client formed, this we use for Networking ! Class Object of okHTTPClient formed
 
     private val request = Request.Builder()  // Used for Requesting Information
         .url("https://api.covid19india.org/data.json")
